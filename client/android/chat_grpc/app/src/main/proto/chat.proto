@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package chat;
+
+option go_package = "server/proto/chat;chat";
+
+// The Chat service definition.
+service ChatService {
+  // Send a message from one client to another.
+  rpc SendMessage (ChatMessage) returns (SendResponse);
+
+  // Open a stream to receive messages for a client.
+  rpc ReceiveMessages (ReceiveRequest) returns (stream ChatMessage);
+}
+
+// Message format for sending and receiving.
+message ChatMessage {
+  string from_id = 1;  // Sender's ID
+  string to_id = 2;    // Recipient's ID
+  string text = 3;     // Message text
+  int64 timestamp = 4; // Timestamp
+}
+
+// Request format for starting to receive messages.
+message ReceiveRequest {
+  string client_id = 1; // Client's ID to receive messages for
+}
+
+// Response for SendMessage
+message SendResponse {
+  bool success = 1;
+}
