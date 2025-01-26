@@ -65,25 +65,3 @@ dependencies {
     implementation(libs.grpc.kotlin.stub)       // Kotlin gRPC stubs
     implementation(libs.javax.annotation.api)   // Required for Android
 }
-
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.24.3" // Protoc version
-    }
-    plugins {
-        create("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.57.0"
-        }
-        create("grpcKotlin") {
-            artifact = "io.grpc:protoc-gen-grpc-kotlin:1.3.0:jdk8@jar"
-        }
-    }
-    generateProtoTasks {
-        all().forEach { task ->
-            task.plugins {
-                "grpc"
-                "grpcKotlin"
-            }
-        }
-    }
-}
