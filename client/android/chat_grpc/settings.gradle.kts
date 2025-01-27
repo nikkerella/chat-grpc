@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "chat-grpc"
 include(":app")
- 

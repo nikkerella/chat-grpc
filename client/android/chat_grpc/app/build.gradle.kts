@@ -1,11 +1,17 @@
 import com.google.protobuf.gradle.id
 
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 
-    id("com.google.protobuf") version "0.9.3"
+    id("com.google.protobuf")
 }
 
 android {
@@ -43,8 +49,12 @@ android {
     }
 }
 
-dependencies {
+//val grpcVersion = "1.51.0"
+//val grpcKotlinVersion = "1.3.0"
+//val protobufVersion = "3.21.12"
+//val coroutinesVersion = "1.6.4"
 
+dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -61,11 +71,43 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(libs.grpc.okhttp) // io.grpc:grpc-okhttp
-    implementation(libs.grpc.protobuf) // io.grpc:grpc-protobuf
-    implementation(libs.grpc.stub) // io.grpc:grpc-stub
-    implementation(libs.javax.annotation.api) // Required for gRPC
+    implementation(libs.grpc.okhttp)
+    implementation(libs.grpc.kotlin.stub)
+    implementation(libs.grpc.protobuf)
+    implementation(libs.protobuf.java.util)
+    implementation(libs.javax.annotation.api)
 }
+
+//protobuf {
+//    protoc {
+//        // The artifact spec for the Protobuf Compiler
+//        artifact = "com.google.protobuf:protoc:3.24.2"
+//    }
+//    plugins {
+//        // Optional: an artifact spec for a protoc plugin, with "grpc" as
+//        // the identifier, which can be referred to in the "plugins"
+//        // container of the "generateProtoTasks" closure.
+//        id("grpc") {
+//            artifact = "io.grpc:protoc-gen-grpc-java:1.57.2"
+//        }
+//    }
+//    // omitted protoc and plugins config
+//    generateProtoTasks {
+//        all().forEach {
+//            // omitted plugins config
+//            it.builtins {
+//                id("kotlin")
+//            }
+//            it.plugins {
+//                // Apply the "grpc" plugin whose spec is defined above, without
+//                // options. Note the braces cannot be omitted, otherwise the
+//                // plugin will not be added. This is because of the implicit way
+//                // NamedDomainObjectContainer binds the methods.
+//                id("grpc") { }
+//            }
+//        }
+//    }
+//}
 
 protobuf {
     protoc {
