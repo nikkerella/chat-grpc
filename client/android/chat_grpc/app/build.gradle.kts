@@ -1,9 +1,11 @@
+import com.google.protobuf.gradle.id
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 
-    id("com.google.protobuf") // Protobuf Gradle Plugin
+    id("com.google.protobuf") version "0.9.3"
 }
 
 android {
@@ -59,9 +61,26 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(libs.grpc.okhttp)            // gRPC transport
-    implementation(libs.grpc.protobuf.lite)     // Protobuf support for Android
-    implementation(libs.grpc.stub)              // gRPC stubs
-    implementation(libs.grpc.kotlin.stub)       // Kotlin gRPC stubs
-    implementation(libs.javax.annotation.api)   // Required for Android
+    implementation(libs.grpc.okhttp) // io.grpc:grpc-okhttp
+    implementation(libs.grpc.protobuf) // io.grpc:grpc-protobuf
+    implementation(libs.grpc.stub) // io.grpc:grpc-stub
+    implementation(libs.javax.annotation.api) // Required for gRPC
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.24.2"
+    }
+    plugins {
+        id("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.57.2"
+        }
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.plugins {
+                id("grpc")
+            }
+        }
+    }
 }
