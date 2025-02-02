@@ -76,52 +76,29 @@ dependencies {
     implementation(libs.grpc.protobuf)
     implementation(libs.protobuf.java.util)
     implementation(libs.javax.annotation.api)
-}
 
-//protobuf {
-//    protoc {
-//        // The artifact spec for the Protobuf Compiler
-//        artifact = "com.google.protobuf:protoc:3.24.2"
-//    }
-//    plugins {
-//        // Optional: an artifact spec for a protoc plugin, with "grpc" as
-//        // the identifier, which can be referred to in the "plugins"
-//        // container of the "generateProtoTasks" closure.
-//        id("grpc") {
-//            artifact = "io.grpc:protoc-gen-grpc-java:1.57.2"
-//        }
-//    }
-//    // omitted protoc and plugins config
-//    generateProtoTasks {
-//        all().forEach {
-//            // omitted plugins config
-//            it.builtins {
-//                id("kotlin")
-//            }
-//            it.plugins {
-//                // Apply the "grpc" plugin whose spec is defined above, without
-//                // options. Note the braces cannot be omitted, otherwise the
-//                // plugin will not be added. This is because of the implicit way
-//                // NamedDomainObjectContainer binds the methods.
-//                id("grpc") { }
-//            }
-//        }
-//    }
-//}
+    implementation(libs.grpc.stub)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.grpc.kotlin.stub)
+}
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.24.2"
+        artifact = "com.google.protobuf:protoc:3.24.3"
     }
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.57.2"
+            path = "/opt/homebrew/bin/protoc-gen-grpc-java"
+        }
+        id("grpckt") {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:1.4.0:jdk8@jar"
         }
     }
     generateProtoTasks {
-        all().forEach { task ->
-            task.plugins {
+        all().configureEach {
+            plugins {
                 id("grpc")
+                id("grpckt")
             }
         }
     }
