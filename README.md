@@ -1,6 +1,4 @@
-# Chat-gRPC
-
-⚠️ SUSPENDED!
+# ⚠️ Chat-gRPC
 
 ``` cmd
 protoc --go_out=. --go-grpc_out=. chat.proto
